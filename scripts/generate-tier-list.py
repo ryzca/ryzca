@@ -14,9 +14,9 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # fmt: off
 TIERS = [
-    ("S", 3, ["rails", "ruby", "ts", "js", "mysql"], 58),
-    ("A", 2, ["py", "react", "nextjs", "tailwind", "docker", "aws", "cloudflare", "githubactions"], 48),
-    ("B", 1, ["go", "gatsby", "java", "spring", "postgres", "mongodb", "nginx"], 42),
+    ("S", 3, ["rails", "ruby", "ts", "js", "mysql"], 46),
+    ("A", 2, ["py", "react", "nextjs", "tailwind", "docker", "aws", "cloudflare", "githubactions"], 40),
+    ("B", 1, ["go", "gatsby", "java", "spring", "postgres", "mongodb", "nginx"], 34),
 ]
 # fmt: on
 
@@ -89,8 +89,8 @@ def embed_icon(svg_text: str, uid: str, x: float, y: float, size: int) -> str:
 def build(theme_name: str) -> str:
     t = THEMES[theme_name]
     rows_h = [max(size, 52) + ROW_PAD * 2 for _, _, _, size in TIERS]
-    title_h = 64
-    height = title_h + sum(rows_h) + 24
+    title_h = 40
+    height = title_h + sum(rows_h) + 32
 
     parts = []
     parts.append(
@@ -129,9 +129,7 @@ def build(theme_name: str) -> str:
         f'fill="url(#bg)" stroke="{t["border"]}" stroke-width="2"/>'
     )
     parts.append(
-        f'<g class="fadeup"><text x="{MARGIN_X}" y="42" font-size="24" font-weight="800" '
-        f'letter-spacing="3" fill="url(#title)">TECH STACK</text>'
-        f'<text x="{WIDTH - MARGIN_X}" y="42" text-anchor="end" font-size="12" '
+        f'<g class="fadeup"><text x="{WIDTH - MARGIN_X}" y="32" text-anchor="end" font-size="12" '
         f'fill="{t["subtext"]}">usage frequency</text></g>'
     )
 
@@ -143,11 +141,11 @@ def build(theme_name: str) -> str:
         parts.append(f'<g class="fadeup r{i}">')
         # row tint + left accent bar
         parts.append(
-            f'<rect x="16" y="{y + 4:g}" width="{WIDTH - 32}" height="{row_h - 8:g}" rx="12" '
+            f'<rect x="24" y="{y + 4:g}" width="{WIDTH - 48}" height="{row_h - 8:g}" rx="12" '
             f'fill="{style["tint"]}" opacity="0.05"/>'
         )
         parts.append(
-            f'<rect x="16" y="{y + 12:g}" width="4" height="{row_h - 24:g}" rx="2" '
+            f'<rect x="24" y="{y + 12:g}" width="4" height="{row_h - 24:g}" rx="2" '
             f'fill="url(#rank{rank})"/>'
         )
         # rank badge (with shine sweep on S)
@@ -187,7 +185,7 @@ def build(theme_name: str) -> str:
         parts.append("</g>")
         if i < len(TIERS) - 1:
             parts.append(
-                f'<line x1="24" y1="{y + row_h:g}" x2="{WIDTH - 24}" y2="{y + row_h:g}" '
+                f'<line x1="32" y1="{y + row_h:g}" x2="{WIDTH - 32}" y2="{y + row_h:g}" '
                 f'stroke="{t["row_line"]}" stroke-width="1"/>'
             )
         y += row_h

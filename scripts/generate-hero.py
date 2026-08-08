@@ -60,13 +60,13 @@ THEMES = {
 
 # ---- TEMPLATE --------------------------------------------------------------
 
-TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" role="img" aria-label="{aria_label}">
+TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 256" role="img" aria-label="{aria_label}">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="960" y2="300" gradientUnits="userSpaceOnUse">
+    <linearGradient id="bg" x1="0" y1="0" x2="960" y2="256" gradientUnits="userSpaceOnUse">
       <stop stop-color="{bg0}"/>
       <stop offset="1" stop-color="{bg1}"/>
     </linearGradient>
-    <linearGradient id="accent" x1="64" y1="120" x2="360" y2="170" gradientUnits="userSpaceOnUse">
+    <linearGradient id="accent" x1="64" y1="100" x2="360" y2="150" gradientUnits="userSpaceOnUse">
       <stop stop-color="{accent0}"/>
       <stop offset="1" stop-color="{accent1}"/>
     </linearGradient>
@@ -96,36 +96,36 @@ TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" role
     @keyframes float {{ 0%, 100% {{ transform: translateY(0); }} 50% {{ transform: translateY(-10px); }} }}
   </style>
 
-  <rect x="1" y="1" width="958" height="298" rx="16" fill="url(#bg)" stroke="{border}" stroke-width="2"/>
+  <rect x="1" y="1" width="958" height="254" rx="16" fill="url(#bg)" stroke="{border}" stroke-width="2"/>
   <circle cx="820" cy="40" r="240" fill="url(#glow1)"/>
-  <circle cx="180" cy="300" r="220" fill="url(#glow2)"/>
+  <circle cx="180" cy="256" r="220" fill="url(#glow2)"/>
 
   <g fill="{dots}" opacity="{dots_op}">
-    <circle cx="620" cy="60" r="2.5"/><circle cx="700" cy="120" r="2"/><circle cx="900" cy="200" r="2.5"/>
-    <circle cx="560" cy="230" r="2"/><circle cx="860" cy="90" r="2"/><circle cx="760" cy="250" r="2.5"/>
+    <circle cx="620" cy="56" r="2.5"/><circle cx="700" cy="110" r="2"/><circle cx="900" cy="180" r="2.5"/>
+    <circle cx="560" cy="204" r="2"/><circle cx="860" cy="84" r="2"/><circle cx="760" cy="222" r="2.5"/>
   </g>
 
   <g class="float" opacity="{deco_op}">
-    <text x="700" y="205" font-size="130" font-weight="700" fill="url(#accent)">&#123;&#8202;&#125;</text>
+    <text x="700" y="188" font-size="130" font-weight="700" fill="url(#accent)">&#123;&#8202;&#125;</text>
   </g>
   <g class="float2" opacity="{deco_op}">
-    <text x="560" y="120" font-size="64" font-weight="700" fill="{deco_accent}">&lt;/&gt;</text>
+    <text x="560" y="108" font-size="64" font-weight="700" fill="{deco_accent}">&lt;/&gt;</text>
   </g>
 
   <g class="fadeup d3">
-    <text x="928" y="52" text-anchor="end" font-size="13" fill="{greeting_c}">&#128205; {location}</text>
+    <text x="928" y="48" text-anchor="end" font-size="13" fill="{greeting_c}">&#128205; {location}</text>
   </g>
 
   <g class="fadeup d1">
-    <text x="66" y="102" font-size="19" fill="{greeting_c}">{greeting} <tspan font-size="21">&#128075;</tspan> I&#8217;m <tspan font-size="24" font-weight="700" fill="url(#accent)">{name}</tspan></text>
+    <text x="66" y="84" font-size="15" fill="{greeting_c}">{greeting} <tspan font-size="17">&#128075;</tspan> I&#8217;m <tspan font-size="19" font-weight="700" fill="url(#accent)">{name}</tspan></text>
   </g>
   <g class="fadeup d2">
-    <text x="66" y="162" font-size="27" font-weight="600" fill="{role_c}">{role}</text>
-    <rect x="67" y="180" width="92" height="4" rx="2" fill="url(#accent)"/>
+    <text x="66" y="138" font-size="21" font-weight="600" fill="{role_c}">{role}</text>
+    <rect x="67" y="154" width="76" height="4" rx="2" fill="url(#accent)"/>
   </g>
 
   <g class="fadeup d4">
-    <text x="66" y="240" class="mono" font-size="16" fill="{prompt_c}">$</text>
+    <text x="66" y="214" class="mono" font-size="16" fill="{prompt_c}">$</text>
 {phrase_nodes}
   </g>
 </svg>
@@ -133,7 +133,7 @@ TEMPLATE = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" role
 
 PHRASE_NODE = (
     '    <g class="phrase{cls}">\n'
-    '      <text x="84" y="240" class="mono" font-size="16" fill="{phrase_c}">'
+    '      <text x="84" y="214" class="mono" font-size="16" fill="{phrase_c}">'
     '{text} <tspan class="cursor" fill="{cursor_c}">&#9612;</tspan></text>\n'
     "    </g>"
 )
