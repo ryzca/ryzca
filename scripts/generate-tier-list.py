@@ -76,7 +76,7 @@ def fetch_icon(slug: str, theme: str) -> str:
         if len(body) < 400:
             raise ValueError(f"skillicons returned an empty icon for slug '{slug}'")
         # inlined third-party SVG must stay passive content
-        if re.search(r"<\s*script|javascript:|on[a-z]+\s*=", body, re.I):
+        if re.search(r"<\s*script|javascript:|on[a-z]+\s*=", body, re.IGNORECASE):
             raise ValueError(f"skillicons icon '{slug}' contains active content")
         _icon_cache[key] = body
     return _icon_cache[key]
