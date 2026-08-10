@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 312" role="img" aria-label="Tech stack tier list">
+<!--
+Tech icons from skillicons.dev
+Copyright (c) 2022 tandpfun, MIT License
+https://github.com/tandpfun/skill-icons/blob/main/LICENSE
+-->
 <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="960" y2="312" gradientUnits="userSpaceOnUse">
       <stop stop-color="#0d1117"/><stop offset="1" stop-color="#131a2b"/>

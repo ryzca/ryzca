@@ -3,6 +3,9 @@
 Icons are fetched from skillicons.dev and inlined (GitHub does not load external
 images inside README SVGs). Re-run this script after editing TIERS.
 
+skillicons.dev is tandpfun/skill-icons, MIT licensed. Since the icons are inlined
+into the generated SVGs, each output carries an attribution comment (ICON_LICENSE).
+
 Usage: python3 scripts/generate-tier-list.py
 """
 
@@ -11,6 +14,11 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# Embedded in every generated SVG — the icons are redistributed inside them.
+ICON_LICENSE = """Tech icons from skillicons.dev
+Copyright (c) 2022 tandpfun, MIT License
+https://github.com/tandpfun/skill-icons/blob/main/LICENSE"""
 
 # fmt: off
 TIERS = [
@@ -63,7 +71,14 @@ def fetch_icon(slug: str, theme: str) -> str:
             url, headers={"User-Agent": "Mozilla/5.0 (profile-readme generator)"}
         )
         with urllib.request.urlopen(req, timeout=30) as res:
-            _icon_cache[key] = res.read().decode("utf-8")
+            body = res.read().decode("utf-8")
+        # skillicons silently returns a ~256-byte empty shell for unknown slugs
+        if len(body) < 400:
+            raise ValueError(f"skillicons returned an empty icon for slug '{slug}'")
+        # inlined third-party SVG must stay passive content
+        if re.search(r"<\s*script|javascript:|on[a-z]+\s*=", body, re.I):
+            raise ValueError(f"skillicons icon '{slug}' contains active content")
+        _icon_cache[key] = body
     return _icon_cache[key]
 
 
@@ -97,6 +112,8 @@ def build(theme_name: str) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {height}" '
         f'role="img" aria-label="Tech stack tier list">'
     )
+    # "--" would terminate the comment early, so keep the notice comment-safe
+    parts.append(f"<!--\n{ICON_LICENSE.replace('--', '- -')}\n-->")
     parts.append(f"""<defs>
     <linearGradient id="bg" x1="0" y1="0" x2="{WIDTH}" y2="{height}" gradientUnits="userSpaceOnUse">
       <stop stop-color="{t["bg"][0]}"/><stop offset="1" stop-color="{t["bg"][1]}"/>
