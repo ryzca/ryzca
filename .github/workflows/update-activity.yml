@@ -1,0 +1,49 @@
+name: Update activity
+
+on:
+  schedule:
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-activity
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # keep the push credential out of .git/config while the generator runs
+          persist-credentials: false
+
+      - name: Generate activity SVGs
+        env:
+          # read:user only, and deliberately no github.token fallback: it cannot
+          # see private contributions, so it would quietly halve the figures
+          ACTIVITY_TOKEN: ${{ secrets.ACTIVITY_TOKEN }}
+        run: python3 scripts/generate-activity.py
+
+      - name: Commit if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # add first: --cached is the only diff that sees a new file. Naming both
+          # paths bounds the push to them, whatever else the generator wrote.
+          git add -A -- assets/activity-dark.svg assets/activity-light.svg
+          if git diff --cached --quiet; then
+            echo "no change"
+            exit 0
+          fi
+          git config user.name "Ryz"
+          git config user.email "35394584+ryzca@users.noreply.github.com"
+          git commit -m "chore: update activity graph" \
+            -m "Co-authored-by: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            "HEAD:${GITHUB_REF_NAME}"
